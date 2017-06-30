@@ -25,8 +25,7 @@ for line in products_file:
 	products.append(json.loads(line))
 
 results = {}
-for listing in listings[:5]:
-	# print listing['title'], listing['manufacturer']
+for listing in listings:
 	match = []
 	for product in products:
 		score = 0
