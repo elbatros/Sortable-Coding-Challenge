@@ -1,7 +1,7 @@
 # sortable-coding-challenge
 
 This is my solution for 
-[Sortable's coding challenge] (https://sortable.com/challenge/)
+[Sortable's coding challenge](https://sortable.com/challenge/)
 
 To test it, simply:
 
