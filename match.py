@@ -24,16 +24,16 @@ products = []
 for line in products_file:
 	products.append(json.loads(line))
 
-
+results = {}
 for listing in listings[:5]:
-	print listing['title'], listing['manufacturer']
+	# print listing['title'], listing['manufacturer']
 	match = []
 	for product in products:
 		score = 0
 		score = score + similar(listing['manufacturer'], product['manufacturer']) * 2
 
 		score = score + similar(listing['title'], product['manufacturer'])
-		score = score + similar(listing['title'], product['product_name'].replace('_',' '))
+		score = score + similar(listing['title'], product['product_name'].replace('_',' ')) * 2
 
 		if 'family' in product:
 			score = score + similar(listing['title'], product['family'])
@@ -41,5 +41,12 @@ for listing in listings[:5]:
 		score = score + similar(listing['title'], product['model'])		
 
 		match.append({'score':score, 'product': product})
-	pprint(sorted(match, key=itemgetter('score'), reverse=True)[0]['product'])
-	print "\n\n\n"
+	product_name = sorted(match, key=itemgetter('score'), reverse=True)[0]['product']['product_name']
+	if product_name in results:
+		results[product_name].append(listing)
+	else:
+		results[product_name] = [listing]
+
+results_file = open('results.txt','w')
+for product_name in results:
+	results_file.write('{\"product_name\":\"%s\", \"listings\":%s}\n' % (product_name, json.dumps(results[product_name])))
